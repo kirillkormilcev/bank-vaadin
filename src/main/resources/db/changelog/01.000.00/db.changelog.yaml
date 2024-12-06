@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: kirill kormilcev
+  - include:
+      file: client.sql
+      relativeToChangelogFile: true
+  - include:
+      file: account.sql
+      relativeToChangelogFile: true
+  - include:
+      file: currency.sql
+      relativeToChangelogFile: true
+  - include:
+      file: currency-insert.sql
+      relativeToChangelogFile: true
