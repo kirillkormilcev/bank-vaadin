@@ -21,7 +21,7 @@ public class ClientServiceImpl implements ClientService {
 
   private static ClientService instance;
 
-  public static  synchronized ClientService getInstance() {
+  public static synchronized ClientService getInstance() {
     if (instance == null) {
       instance = new ClientServiceImpl();
     }

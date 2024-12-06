@@ -32,101 +32,101 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AccountUpdateView extends Composite<VerticalLayout> {
 
-    AccountService accountService;
+  AccountService accountService;
 
-    public AccountUpdateView() {
-        accountService = AccountServiceImpl.getInstance();
+  public AccountUpdateView() {
+    accountService = AccountServiceImpl.getInstance();
 
-        VerticalLayout layoutColumn2 = new VerticalLayout();
-        H3 h3 = new H3();
-        FormLayout formLayout2Col = new FormLayout();
+    VerticalLayout layoutColumn2 = new VerticalLayout();
+    H3 h3 = new H3();
+    FormLayout formLayout2Col = new FormLayout();
 
-        TextField accountField = new TextField();
-        TextField bicField2 = new TextField();
-        TextField currencyField = new TextField();
-        BigDecimalField balanceField = new BigDecimalField();
+    TextField accountField = new TextField();
+    TextField bicField2 = new TextField();
+    TextField currencyField = new TextField();
+    BigDecimalField balanceField = new BigDecimalField();
 
-        HorizontalLayout layoutRow = new HorizontalLayout();
+    HorizontalLayout layoutRow = new HorizontalLayout();
 
-        Button updateButton = new Button();
-        Button cancelButton = new Button();
+    Button updateButton = new Button();
+    Button cancelButton = new Button();
 
-        getContent().setWidth("100%");
-        getContent().getStyle().set("flex-grow", "1");
-        getContent().setJustifyContentMode(JustifyContentMode.START);
-        getContent().setAlignItems(Alignment.CENTER);
+    getContent().setWidth("100%");
+    getContent().getStyle().set("flex-grow", "1");
+    getContent().setJustifyContentMode(JustifyContentMode.START);
+    getContent().setAlignItems(Alignment.CENTER);
 
-        layoutColumn2.setWidth("100%");
-        layoutColumn2.setMaxWidth("800px");
-        layoutColumn2.setHeight("min-content");
+    layoutColumn2.setWidth("100%");
+    layoutColumn2.setMaxWidth("800px");
+    layoutColumn2.setHeight("min-content");
 
-        h3.setText("Данные счета");
-        h3.setWidth("100%");
+    h3.setText("Данные счета");
+    h3.setWidth("100%");
 
-        formLayout2Col.setWidth("100%");
+    formLayout2Col.setWidth("100%");
 
-        accountField.setLabel("Номер счета");
-        bicField2.setLabel("БИК");
-        currencyField.setLabel("Валюта");
-        balanceField.setLabel("Сумма");
+    accountField.setLabel("Номер счета");
+    bicField2.setLabel("БИК");
+    currencyField.setLabel("Валюта");
+    balanceField.setLabel("Сумма");
 
-        currencyField.setWidth("min-content");
+    currencyField.setWidth("min-content");
 
-        layoutRow.addClassName(Gap.MEDIUM);
-        layoutRow.setWidth("100%");
-        layoutRow.getStyle().set("flex-grow", "1");
+    layoutRow.addClassName(Gap.MEDIUM);
+    layoutRow.setWidth("100%");
+    layoutRow.getStyle().set("flex-grow", "1");
 
-        updateButton.setText("Сохранить");
-        updateButton.setWidth("min-content");
-        updateButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    updateButton.setText("Сохранить");
+    updateButton.setWidth("min-content");
+    updateButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        AccountResponse account = ComponentUtil.getData(UI.getCurrent(), AccountResponse.class);
+    AccountResponse account = ComponentUtil.getData(UI.getCurrent(), AccountResponse.class);
 
-        if (account != null) {
-            accountField.setValue(account.paymentAccount());
-            bicField2.setValue(account.bic());
-            currencyField.setValue(account.currency());
-            currencyField.setReadOnly(true);
-            balanceField.setValue(account.balance());
-            balanceField.setReadOnly(true);
+    if (account != null) {
+      accountField.setValue(account.paymentAccount());
+      bicField2.setValue(account.bic());
+      currencyField.setValue(account.currency());
+      currencyField.setReadOnly(true);
+      balanceField.setValue(account.balance());
+      balanceField.setReadOnly(true);
 
-            updateButton.addClickListener(e -> {
-                Optional<AccountResponse> accountResponse = accountService.update(
-                    new UpdateAccountRequest(
-                        accountField.getValue(),
-                        bicField2.getValue(),
-                        account.clientId()
-                    )
-                );
-                if (accountResponse.isPresent()) {
-                    Notification notification = Notification.show("Счет клиента изменен");
-                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                } else {
-                    Notification notification = Notification.show("Не удалось изменить счет");
-                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                }
-                UI.getCurrent().navigate(ClientsWithOpenAccountsView.class);
-            });
+      updateButton.addClickListener(e -> {
+        Optional<AccountResponse> accountResponse = accountService.update(
+            new UpdateAccountRequest(
+                accountField.getValue(),
+                bicField2.getValue(),
+                account.clientId()
+            )
+        );
+        if (accountResponse.isPresent()) {
+          Notification notification = Notification.show("Счет клиента изменен");
+          notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         } else {
-            UI.getCurrent().navigate(ClientsWithOpenAccountsView.class);
+          Notification notification = Notification.show("Не удалось изменить счет");
+          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
-
-        cancelButton.setText("Отмена");
-        cancelButton.setWidth("min-content");
-
-        getContent().add(layoutColumn2);
-
-        layoutColumn2.add(h3);
-        layoutColumn2.add(formLayout2Col);
-
-        formLayout2Col.add(accountField);
-        formLayout2Col.add(bicField2);
-        formLayout2Col.add(currencyField);
-        formLayout2Col.add(balanceField);
-
-        layoutColumn2.add(layoutRow);
-
-        layoutRow.add(updateButton);
-        layoutRow.add(cancelButton);
+        UI.getCurrent().navigate(ClientsWithOpenAccountsView.class);
+      });
+    } else {
+      UI.getCurrent().navigate(ClientsWithOpenAccountsView.class);
     }
+
+    cancelButton.setText("Отмена");
+    cancelButton.setWidth("min-content");
+
+    getContent().add(layoutColumn2);
+
+    layoutColumn2.add(h3);
+    layoutColumn2.add(formLayout2Col);
+
+    formLayout2Col.add(accountField);
+    formLayout2Col.add(bicField2);
+    formLayout2Col.add(currencyField);
+    formLayout2Col.add(balanceField);
+
+    layoutColumn2.add(layoutRow);
+
+    layoutRow.add(updateButton);
+    layoutRow.add(cancelButton);
+  }
 }

@@ -24,62 +24,62 @@ import java.util.List;
 @AnonymousAllowed
 public class MainLayout extends AppLayout {
 
-    private H1 viewTitle;
+  private H1 viewTitle;
 
-    public MainLayout() {
-        setPrimarySection(Section.DRAWER);
-        addDrawerContent();
-        addHeaderContent();
-    }
+  public MainLayout() {
+    setPrimarySection(Section.DRAWER);
+    addDrawerContent();
+    addHeaderContent();
+  }
 
-    private void addHeaderContent() {
-        DrawerToggle toggle = new DrawerToggle();
-        toggle.setAriaLabel("Menu toggle");
+  private void addHeaderContent() {
+    DrawerToggle toggle = new DrawerToggle();
+    toggle.setAriaLabel("Menu toggle");
 
-        viewTitle = new H1();
-        viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
+    viewTitle = new H1();
+    viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
 
-        addToNavbar(true, toggle, viewTitle);
-    }
+    addToNavbar(true, toggle, viewTitle);
+  }
 
-    private void addDrawerContent() {
-        Span appName = new Span("bank");
-        appName.addClassNames(LumoUtility.FontWeight.SEMIBOLD, LumoUtility.FontSize.LARGE);
-        Header header = new Header(appName);
+  private void addDrawerContent() {
+    Span appName = new Span("bank");
+    appName.addClassNames(LumoUtility.FontWeight.SEMIBOLD, LumoUtility.FontSize.LARGE);
+    Header header = new Header(appName);
 
-        Scroller scroller = new Scroller(createNavigation());
+    Scroller scroller = new Scroller(createNavigation());
 
-        addToDrawer(header, scroller, createFooter());
-    }
+    addToDrawer(header, scroller, createFooter());
+  }
 
-    private SideNav createNavigation() {
-        SideNav nav = new SideNav();
+  private SideNav createNavigation() {
+    SideNav nav = new SideNav();
 
-        List<MenuEntry> menuEntries = MenuConfiguration.getMenuEntries();
-        menuEntries.forEach(entry -> {
-            if (entry.icon() != null) {
-                nav.addItem(new SideNavItem(entry.title(), entry.path(), new SvgIcon(entry.icon())));
-            } else {
-                nav.addItem(new SideNavItem(entry.title(), entry.path()));
-            }
-        });
+    List<MenuEntry> menuEntries = MenuConfiguration.getMenuEntries();
+    menuEntries.forEach(entry -> {
+      if (entry.icon() != null) {
+        nav.addItem(new SideNavItem(entry.title(), entry.path(), new SvgIcon(entry.icon())));
+      } else {
+        nav.addItem(new SideNavItem(entry.title(), entry.path()));
+      }
+    });
 
-        return nav;
-    }
+    return nav;
+  }
 
-    private Footer createFooter() {
-        Footer layout = new Footer();
+  private Footer createFooter() {
+    Footer layout = new Footer();
 
-        return layout;
-    }
+    return layout;
+  }
 
-    @Override
-    protected void afterNavigation() {
-        super.afterNavigation();
-        viewTitle.setText(getCurrentPageTitle());
-    }
+  @Override
+  protected void afterNavigation() {
+    super.afterNavigation();
+    viewTitle.setText(getCurrentPageTitle());
+  }
 
-    private String getCurrentPageTitle() {
-        return MenuConfiguration.getPageHeader(getContent()).orElse("");
-    }
+  private String getCurrentPageTitle() {
+    return MenuConfiguration.getPageHeader(getContent()).orElse("");
+  }
 }

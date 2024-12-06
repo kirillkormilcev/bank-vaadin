@@ -20,47 +20,47 @@ import java.util.Optional;
 public class AccountDaoImpl implements AccountDao {
 
   private static final String SAVE_SQL = """
-            INSERT INTO account (payment_account, balance, status, bic, currency, client_id)
-            VALUES (?, ?, ?, ?, ?, ?);
-            """;
+      INSERT INTO account (payment_account, balance, status, bic, currency, client_id)
+      VALUES (?, ?, ?, ?, ?, ?);
+      """;
 
   private static final String FIND_ALL_CURRENCY_SQL = """
-            SELECT currency_id, c.currency, label, disabled FROM currency c;
-            """;
+      SELECT currency_id, c.currency, label, disabled FROM currency c;
+      """;
 
   private static final String CLOSE_SQL = """
-            UPDATE account
-            SET status = ?
-            WHERE payment_account = ?;
-            """;
+      UPDATE account
+      SET status = ?
+      WHERE payment_account = ?;
+      """;
 
   private static final String FIND_ALL_OPEN_BY_CLIENT_ID = """
-            SELECT account_id, payment_account, balance, status, bic, currency, client_id  FROM account
-            WHERE status = ?
-            AND client_id = ?;
-            """;
+      SELECT account_id, payment_account, balance, status, bic, currency, client_id  FROM account
+      WHERE status = ?
+      AND client_id = ?;
+      """;
 
   private static final String FIND_ALL_EXCEPT_CURRENT = """
-            SELECT account_id, payment_account, balance, status, bic, currency, client_id  FROM account
-            WHERE payment_account != ?
-            AND status = ?;
-            """;
+      SELECT account_id, payment_account, balance, status, bic, currency, client_id  FROM account
+      WHERE payment_account != ?
+      AND status = ?;
+      """;
 
   private static final String GET_BALANCE_SQL = """
-            SELECT balance FROM account
-            WHERE payment_account = ?;
-            """;
+      SELECT balance FROM account
+      WHERE payment_account = ?;
+      """;
 
   private static final String UPDATE_BALANCE_SQL = """
-            UPDATE account
-            SET balance = balance + ?
-            WHERE payment_account = ?;
-            """;
+      UPDATE account
+      SET balance = balance + ?
+      WHERE payment_account = ?;
+      """;
 
   private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
   private static AccountDao instance;
 
-  public static  synchronized AccountDao getInstance() {
+  public static synchronized AccountDao getInstance() {
     if (instance == null) {
       instance = new AccountDaoImpl();
     }
@@ -123,7 +123,8 @@ public class AccountDaoImpl implements AccountDao {
   }
 
   @Override
-  public boolean transfer(String fromPaymentAccount, BigDecimal balance, BigDecimal amount, String toPaymentAccount)
+  public boolean transfer(String fromPaymentAccount, BigDecimal balance, BigDecimal amount,
+      String toPaymentAccount)
       throws SQLException {
     Connection connection = null;
     PreparedStatement preparedStatementUpdateFrom = null;
@@ -165,7 +166,7 @@ public class AccountDaoImpl implements AccountDao {
   }
 
   @Override
-  public boolean replenish (String paymentAccount, BigDecimal amount) {
+  public boolean replenish(String paymentAccount, BigDecimal amount) {
     try (Connection connection = connectionManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BALANCE_SQL)) {
 

@@ -14,10 +14,11 @@ public class LoggingAspect {
   @Pointcut("""
       within(dev.kormilcev.bank.repository.impl..*)
       """)
-  public void anyMethodsInDao() {}
+  public void anyMethodsInDao() {
+  }
 
   @AfterReturning(value = "anyMethodsInDao()", returning = "returning")
-  public void logAfter (JoinPoint joinPoint, Object returning) {
+  public void logAfter(JoinPoint joinPoint, Object returning) {
     String className = joinPoint.getSignature().getDeclaringTypeName();
     String methodName = joinPoint.getSignature().getName();
 

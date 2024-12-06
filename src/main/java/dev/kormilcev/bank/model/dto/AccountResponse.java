@@ -11,4 +11,5 @@ public record AccountResponse(
     String bic,
     String currency,
     Long clientId) implements Serializable {
+
 }

@@ -10,10 +10,11 @@ public interface AccountDao extends Dao<Account, Long> {
 
   boolean close(String paymentAccount);
 
-  boolean transfer(String fromPaymentAccount, BigDecimal balance, BigDecimal amount, String toPaymentAccount)
+  boolean transfer(String fromPaymentAccount, BigDecimal balance, BigDecimal amount,
+      String toPaymentAccount)
       throws SQLException;
 
-  boolean replenish (String paymentAccount, BigDecimal amount);
+  boolean replenish(String paymentAccount, BigDecimal amount);
 
   List<Account> findOpenByClientId(Long clientId);
 

@@ -20,41 +20,41 @@ import org.apache.commons.io.IOUtils;
 public class ClientDaoImpl implements ClientDao {
 
   private static final String SAVE_SQL = """
-            INSERT INTO client (surname, name, patronymic, phone, inn, address)
-            VALUES (?, ?, ?, ?, ?, ?);
-            """;
+      INSERT INTO client (surname, name, patronymic, phone, inn, address)
+      VALUES (?, ?, ?, ?, ?, ?);
+      """;
 
   private static final String UPDATE_SQL = """
-            UPDATE client
-            SET surname = ?,
-                name = ?,
-                patronymic = ?,
-                phone = ?,
-                inn = ?,
-                address = ?
-            WHERE client_id = ?;
-            """;
+      UPDATE client
+      SET surname = ?,
+          name = ?,
+          patronymic = ?,
+          phone = ?,
+          inn = ?,
+          address = ?
+      WHERE client_id = ?;
+      """;
 
   private static final String FIND_ALL_SQL = """
-            SELECT client_id, surname, name, patronymic, phone, inn, address  FROM client;
-            """;
+      SELECT client_id, surname, name, patronymic, phone, inn, address  FROM client;
+      """;
 
   private static final String FIND_ALL_OPEN_SQL = """
-            SELECT c.client_id, surname, name, patronymic, phone, inn, address  FROM client c
-            JOIN account a ON c.client_id = a.client_id
-            WHERE status = ?
-            GROUP BY c.client_id;
-            """;
+      SELECT c.client_id, surname, name, patronymic, phone, inn, address  FROM client c
+      JOIN account a ON c.client_id = a.client_id
+      WHERE status = ?
+      GROUP BY c.client_id;
+      """;
 
   private static final String UPLOAD_SQL = """
-            UPDATE client
-            SET passport_scan = ?
-            WHERE client_id = ?;
-            """;
+      UPDATE client
+      SET passport_scan = ?
+      WHERE client_id = ?;
+      """;
   private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
   private static ClientDao instance;
 
-  public static  synchronized ClientDao getInstance() {
+  public static synchronized ClientDao getInstance() {
     if (instance == null) {
       instance = new ClientDaoImpl();
     }
@@ -110,7 +110,7 @@ public class ClientDaoImpl implements ClientDao {
 
       ResultSet resultSet = preparedStatement.getGeneratedKeys();
       if (resultSet.next()) {
-          client = createClient(resultSet);
+        client = createClient(resultSet);
       }
     } catch (SQLException e) {
       throw new DataBaseStatementException("Ошибка при изменении клиента в базе данных."
@@ -147,7 +147,7 @@ public class ClientDaoImpl implements ClientDao {
     try (Connection connection = connectionManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_OPEN_SQL)) {
 
-        preparedStatement.setString(1, "OPEN");
+      preparedStatement.setString(1, "OPEN");
 
       ResultSet resultSet = preparedStatement.executeQuery();
       while (resultSet.next()) {

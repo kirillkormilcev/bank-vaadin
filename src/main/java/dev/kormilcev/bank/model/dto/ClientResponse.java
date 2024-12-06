@@ -7,5 +7,6 @@ public record ClientResponse(
     String patronymic,
     String phone,
     String inn,
-    String address){
+    String address) {
+
 }

@@ -14,39 +14,41 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
-    List<String> errors;
-    int status;
-    String message;
-    String reason;
-    String timestamp;
 
-    public static List<String> logAndGetErrorsFromStackTrace(Exception e) {
-        return Arrays.stream(ExceptionUtils.getRootCauseStackTrace(e)).filter(f -> f.contains("ru.aston.rest_service"))
-                .map(string -> {
-                    if (string.contains("\t")) {
-                        string = string.substring(1);
-                    }
-                    return string;
-                })
-                .toList();
-    }
+  List<String> errors;
+  int status;
+  String message;
+  String reason;
+  String timestamp;
 
-    public static ErrorResponse createError(/*HttpServletResponse resp, */Exception e) {
-        log.warn(e.getMessage(), e.getCause());
-        return new ErrorResponse(logAndGetErrorsFromStackTrace(e),
-                /*resp.getStatus(),*/ e.getMessage(), e.getClass().toString());
-    }
+  public static List<String> logAndGetErrorsFromStackTrace(Exception e) {
+    return Arrays.stream(ExceptionUtils.getRootCauseStackTrace(e))
+        .filter(f -> f.contains("ru.aston.rest_service"))
+        .map(string -> {
+          if (string.contains("\t")) {
+            string = string.substring(1);
+          }
+          return string;
+        })
+        .toList();
+  }
 
-    public ErrorResponse(List<String> errors, /*int status, */String message, String reason) {
-        this.errors = errors;
-        /*this.status = status;*/
-        this.message = message;
-        this.reason = reason;
-        this.timestamp = dateTimeFormat(LocalDateTime.now());
-    }
+  public static ErrorResponse createError(/*HttpServletResponse resp, */Exception e) {
+    log.warn(e.getMessage(), e.getCause());
+    return new ErrorResponse(logAndGetErrorsFromStackTrace(e),
+        /*resp.getStatus(),*/ e.getMessage(), e.getClass().toString());
+  }
 
-    private String dateTimeFormat(LocalDateTime now) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return now.format(formatter);
-    }
+  public ErrorResponse(List<String> errors, /*int status, */String message, String reason) {
+    this.errors = errors;
+    /*this.status = status;*/
+    this.message = message;
+    this.reason = reason;
+    this.timestamp = dateTimeFormat(LocalDateTime.now());
+  }
+
+  private String dateTimeFormat(LocalDateTime now) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    return now.format(formatter);
+  }
 }

@@ -19,30 +19,30 @@ import org.vaadin.lineawesome.LineAwesomeIconUrl;
 @Menu(order = 0, icon = LineAwesomeIconUrl.BALANCE_SCALE_SOLID)
 public class MainView extends Composite<VerticalLayout> {
 
-    public MainView() {
-        MenuBar menuBar = new MenuBar();
-        getContent().setWidth("100%");
-        getContent().getStyle().set("flex-grow", "1");
-        getContent().setJustifyContentMode(JustifyContentMode.START);
-        getContent().setAlignItems(Alignment.CENTER);
-        menuBar.setWidth("min-content");
-        setMenuBarSampleData(menuBar);
-        getContent().add(menuBar);
-    }
+  public MainView() {
+    MenuBar menuBar = new MenuBar();
+    getContent().setWidth("100%");
+    getContent().getStyle().set("flex-grow", "1");
+    getContent().setJustifyContentMode(JustifyContentMode.START);
+    getContent().setAlignItems(Alignment.CENTER);
+    menuBar.setWidth("min-content");
+    setMenuBarSampleData(menuBar);
+    getContent().add(menuBar);
+  }
 
-    private void setMenuBarSampleData(MenuBar menuBar) {
+  private void setMenuBarSampleData(MenuBar menuBar) {
 
-        menuBar.addItem("Главная", e -> {
-            UI.getCurrent().navigate(MainView.class);
-        });
-        menuBar.addItem("Новый клиент", e -> {
-            UI.getCurrent().navigate(ClientNewView.class);
-        });
-        menuBar.addItem("Все клиенты", e -> {
-            UI.getCurrent().navigate(ClientsView.class);
-        });
-        menuBar.addItem("Клиенты с открытыми счетами", e -> {
-            UI.getCurrent().navigate(ClientsWithOpenAccountsView.class);
-        });
-    }
+    menuBar.addItem("Главная", e -> {
+      UI.getCurrent().navigate(MainView.class);
+    });
+    menuBar.addItem("Новый клиент", e -> {
+      UI.getCurrent().navigate(ClientNewView.class);
+    });
+    menuBar.addItem("Все клиенты", e -> {
+      UI.getCurrent().navigate(ClientsView.class);
+    });
+    menuBar.addItem("Клиенты с открытыми счетами", e -> {
+      UI.getCurrent().navigate(ClientsWithOpenAccountsView.class);
+    });
+  }
 }

@@ -31,93 +31,93 @@ import org.vaadin.lineawesome.LineAwesomeIconUrl;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ClientNewView extends Composite<VerticalLayout> {
 
-    ClientService clientService;
+  ClientService clientService;
 
-    public ClientNewView() {
-        clientService = ClientServiceImpl.getInstance();
+  public ClientNewView() {
+    clientService = ClientServiceImpl.getInstance();
 
-        VerticalLayout layoutColumn2 = new VerticalLayout();
-        H3 h3 = new H3();
-        FormLayout formLayout2Col = new FormLayout();
+    VerticalLayout layoutColumn2 = new VerticalLayout();
+    H3 h3 = new H3();
+    FormLayout formLayout2Col = new FormLayout();
 
-        TextField surnameField = new TextField();
-        TextField nameField = new TextField();
-        TextField patronymicField = new TextField();
-        TextField phoneField = new TextField();
-        TextField innField = new TextField();
-        TextField addressField = new TextField();
+    TextField surnameField = new TextField();
+    TextField nameField = new TextField();
+    TextField patronymicField = new TextField();
+    TextField phoneField = new TextField();
+    TextField innField = new TextField();
+    TextField addressField = new TextField();
 
-        HorizontalLayout layoutRow = new HorizontalLayout();
+    HorizontalLayout layoutRow = new HorizontalLayout();
 
-        Button saveButton = new Button();
-        Button cancelButton = new Button();
+    Button saveButton = new Button();
+    Button cancelButton = new Button();
 
-        getContent().setWidth("100%");
-        getContent().getStyle().set("flex-grow", "1");
-        getContent().setJustifyContentMode(JustifyContentMode.START);
-        getContent().setAlignItems(Alignment.CENTER);
+    getContent().setWidth("100%");
+    getContent().getStyle().set("flex-grow", "1");
+    getContent().setJustifyContentMode(JustifyContentMode.START);
+    getContent().setAlignItems(Alignment.CENTER);
 
-        layoutColumn2.setWidth("100%");
-        layoutColumn2.setMaxWidth("800px");
-        layoutColumn2.setHeight("min-content");
+    layoutColumn2.setWidth("100%");
+    layoutColumn2.setMaxWidth("800px");
+    layoutColumn2.setHeight("min-content");
 
-        h3.setText("Данные клиента");
-        h3.setWidth("100%");
+    h3.setText("Данные клиента");
+    h3.setWidth("100%");
 
-        formLayout2Col.setWidth("100%");
+    formLayout2Col.setWidth("100%");
 
-        surnameField.setLabel("Фамилия");
-        nameField.setLabel("Имя");
-        patronymicField.setLabel("Отчество");
-        phoneField.setLabel("Телефон");
-        phoneField.setWidth("min-content");
-        innField.setLabel("ИНН");
-        addressField.setLabel("Адрес");
+    surnameField.setLabel("Фамилия");
+    nameField.setLabel("Имя");
+    patronymicField.setLabel("Отчество");
+    phoneField.setLabel("Телефон");
+    phoneField.setWidth("min-content");
+    innField.setLabel("ИНН");
+    addressField.setLabel("Адрес");
 
-        layoutRow.addClassName(Gap.MEDIUM);
-        layoutRow.setWidth("100%");
-        layoutRow.getStyle().set("flex-grow", "1");
+    layoutRow.addClassName(Gap.MEDIUM);
+    layoutRow.setWidth("100%");
+    layoutRow.getStyle().set("flex-grow", "1");
 
-        saveButton.setText("Сохранить");
-        saveButton.setWidth("min-content");
-        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    saveButton.setText("Сохранить");
+    saveButton.setWidth("min-content");
+    saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        saveButton.addClickListener(e -> {
-            clientService.createClient(
-                new NewClientRequest(
-                    surnameField.getValue(),
-                    nameField.getValue(),
-                    patronymicField.getValue(),
-                    phoneField.getValue(),
-                    innField.getValue(),
-                    addressField.getValue()
-                )
-            );
+    saveButton.addClickListener(e -> {
+      clientService.createClient(
+          new NewClientRequest(
+              surnameField.getValue(),
+              nameField.getValue(),
+              patronymicField.getValue(),
+              phoneField.getValue(),
+              innField.getValue(),
+              addressField.getValue()
+          )
+      );
 
-            Notification notification = Notification.show("Клиент создан");
-            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+      Notification notification = Notification.show("Клиент создан");
+      notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
-            UI.getCurrent().navigate(MainView.class);
-        });
+      UI.getCurrent().navigate(MainView.class);
+    });
 
-        cancelButton.setText("Отмена");
-        cancelButton.setWidth("min-content");
+    cancelButton.setText("Отмена");
+    cancelButton.setWidth("min-content");
 
-        getContent().add(layoutColumn2);
+    getContent().add(layoutColumn2);
 
-        layoutColumn2.add(h3);
-        layoutColumn2.add(formLayout2Col);
+    layoutColumn2.add(h3);
+    layoutColumn2.add(formLayout2Col);
 
-        formLayout2Col.add(surnameField);
-        formLayout2Col.add(nameField);
-        formLayout2Col.add(patronymicField);
-        formLayout2Col.add(phoneField);
-        formLayout2Col.add(innField);
-        formLayout2Col.add(addressField);
+    formLayout2Col.add(surnameField);
+    formLayout2Col.add(nameField);
+    formLayout2Col.add(patronymicField);
+    formLayout2Col.add(phoneField);
+    formLayout2Col.add(innField);
+    formLayout2Col.add(addressField);
 
-        layoutColumn2.add(layoutRow);
+    layoutColumn2.add(layoutRow);
 
-        layoutRow.add(saveButton);
-        layoutRow.add(cancelButton);
-    }
+    layoutRow.add(saveButton);
+    layoutRow.add(cancelButton);
+  }
 }

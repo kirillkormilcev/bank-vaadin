@@ -88,7 +88,7 @@ public class AccountsOpenedOfClientView extends Div {
     this.add(layout);
   }
 
-  private Button createButtonAndRoute (String name, String route, AccountResponse account) {
+  private Button createButtonAndRoute(String name, String route, AccountResponse account) {
     Button button = new Button(name);
     button.addClickListener(e -> {
 

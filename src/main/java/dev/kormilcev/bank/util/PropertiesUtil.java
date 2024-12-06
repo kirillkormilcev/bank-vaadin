@@ -4,25 +4,27 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesUtil {
-    private static final Properties PROPERTIES_UTIL = new Properties();
-    private static final String PROPERTIES_FILE = "application.properties";
 
-    static {
-        loadProperties();
-    }
+  private static final Properties PROPERTIES_UTIL = new Properties();
+  private static final String PROPERTIES_FILE = "application.properties";
 
-    private PropertiesUtil() {
-    }
+  static {
+    loadProperties();
+  }
 
-    public static String getProperties(String key) {
-        return PROPERTIES_UTIL.getProperty(key);
-    }
+  private PropertiesUtil() {
+  }
 
-    private static void loadProperties() {
-        try (InputStream inFile = PropertiesUtil.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
-            PROPERTIES_UTIL.load(inFile);
-        } catch (Exception e) {
-            throw new IllegalStateException();
-        }
+  public static String getProperties(String key) {
+    return PROPERTIES_UTIL.getProperty(key);
+  }
+
+  private static void loadProperties() {
+    try (InputStream inFile = PropertiesUtil.class.getClassLoader()
+        .getResourceAsStream(PROPERTIES_FILE)) {
+      PROPERTIES_UTIL.load(inFile);
+    } catch (Exception e) {
+      throw new IllegalStateException();
     }
+  }
 }

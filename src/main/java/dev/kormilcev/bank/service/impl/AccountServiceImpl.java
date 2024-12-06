@@ -66,7 +66,8 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public boolean transfer(String fromPaymentAccount, BigDecimal balance, BigDecimal amount, String toPaymentAccount) {
+  public boolean transfer(String fromPaymentAccount, BigDecimal balance, BigDecimal amount,
+      String toPaymentAccount) {
     try {
       return accountDao.transfer(fromPaymentAccount, balance, amount, toPaymentAccount);
     } catch (SQLException e) {

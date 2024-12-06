@@ -20,7 +20,8 @@ public interface AccountService {
 
   List<AccountResponse> getAllAvailableAccounts(String paymentAccount);
 
-  boolean transfer(String fromPaymentAccount, BigDecimal balance, BigDecimal amount, String toPaymentAccount);
+  boolean transfer(String fromPaymentAccount, BigDecimal balance, BigDecimal amount,
+      String toPaymentAccount);
 
   boolean replenish(String paymentAccount, BigDecimal amount);
 

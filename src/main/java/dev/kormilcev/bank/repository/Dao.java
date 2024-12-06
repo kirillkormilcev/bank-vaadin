@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Dao<T, K> {
+
   T create(T t);
 
   T update(T t);

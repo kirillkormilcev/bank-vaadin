@@ -4,5 +4,6 @@ public record NewAccountRequest(
     String paymentAccount,
     String bic,
     String currency,
-    Long clientId){
+    Long clientId) {
+
 }

@@ -34,7 +34,7 @@ public class AccountTransferView extends Composite<VerticalLayout> {
 
   AccountService accountService;
 
-  public AccountTransferView () {
+  public AccountTransferView() {
     accountService = AccountServiceImpl.getInstance();
 
     VerticalLayout layoutColumn2 = new VerticalLayout();
@@ -94,7 +94,8 @@ public class AccountTransferView extends Composite<VerticalLayout> {
     transferButton.addClickListener(e -> {
 
       if (accountService.transfer(account.paymentAccount(), account.balance(),
-          amountField.getValue(), ((AccountResponse) toAccountComboBox.getValue()).paymentAccount())) {
+          amountField.getValue(),
+          ((AccountResponse) toAccountComboBox.getValue()).paymentAccount())) {
         Notification notification = Notification.show("Перевод выполнен");
         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
       } else {
@@ -124,7 +125,8 @@ public class AccountTransferView extends Composite<VerticalLayout> {
   }
 
   private void setComboBoxAvailableAccountsData(ComboBox comboBox, AccountResponse account) {
-    List<AccountResponse> accounts = accountService.getAllAvailableAccounts(account.paymentAccount());
+    List<AccountResponse> accounts = accountService.getAllAvailableAccounts(
+        account.paymentAccount());
 
     comboBox.setItems(accounts);
     comboBox.setItemLabelGenerator(item -> ((AccountResponse) item).paymentAccount());

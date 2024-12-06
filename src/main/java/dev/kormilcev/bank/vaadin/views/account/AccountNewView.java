@@ -33,100 +33,100 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AccountNewView extends Composite<VerticalLayout> {
 
-    AccountService accountService;
+  AccountService accountService;
 
-    public AccountNewView() {
-        accountService = AccountServiceImpl.getInstance();
+  public AccountNewView() {
+    accountService = AccountServiceImpl.getInstance();
 
-        VerticalLayout layoutColumn2 = new VerticalLayout();
-        H3 h3 = new H3();
-        FormLayout formLayout2Col = new FormLayout();
+    VerticalLayout layoutColumn2 = new VerticalLayout();
+    H3 h3 = new H3();
+    FormLayout formLayout2Col = new FormLayout();
 
-        TextField accountField = new TextField();
-        TextField bicField2 = new TextField();
-        Select currencySelect = new Select();
+    TextField accountField = new TextField();
+    TextField bicField2 = new TextField();
+    Select currencySelect = new Select();
 
-        HorizontalLayout layoutRow = new HorizontalLayout();
+    HorizontalLayout layoutRow = new HorizontalLayout();
 
-        Button createButton = new Button();
-        Button cancelButton = new Button();
+    Button createButton = new Button();
+    Button cancelButton = new Button();
 
-        getContent().setWidth("100%");
-        getContent().getStyle().set("flex-grow", "1");
-        getContent().setJustifyContentMode(JustifyContentMode.START);
-        getContent().setAlignItems(Alignment.CENTER);
+    getContent().setWidth("100%");
+    getContent().getStyle().set("flex-grow", "1");
+    getContent().setJustifyContentMode(JustifyContentMode.START);
+    getContent().setAlignItems(Alignment.CENTER);
 
-        layoutColumn2.setWidth("100%");
-        layoutColumn2.setMaxWidth("800px");
-        layoutColumn2.setHeight("min-content");
+    layoutColumn2.setWidth("100%");
+    layoutColumn2.setMaxWidth("800px");
+    layoutColumn2.setHeight("min-content");
 
-        h3.setText("Данные счета");
-        h3.setWidth("100%");
+    h3.setText("Данные счета");
+    h3.setWidth("100%");
 
-        formLayout2Col.setWidth("100%");
+    formLayout2Col.setWidth("100%");
 
-        accountField.setLabel("Номер счета");
-        accountField.setValue("12345678900987654321");
-        bicField2.setLabel("БИК");
-        currencySelect.setLabel("Валюта");
+    accountField.setLabel("Номер счета");
+    accountField.setValue("12345678900987654321");
+    bicField2.setLabel("БИК");
+    currencySelect.setLabel("Валюта");
 
-        currencySelect.setWidth("min-content");
+    currencySelect.setWidth("min-content");
 
-        setSelectCurrencyData(currencySelect);
+    setSelectCurrencyData(currencySelect);
 
-        layoutRow.addClassName(Gap.MEDIUM);
-        layoutRow.setWidth("100%");
-        layoutRow.getStyle().set("flex-grow", "1");
+    layoutRow.addClassName(Gap.MEDIUM);
+    layoutRow.setWidth("100%");
+    layoutRow.getStyle().set("flex-grow", "1");
 
-        createButton.setText("Создать");
-        createButton.setWidth("min-content");
-        createButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    createButton.setText("Создать");
+    createButton.setWidth("min-content");
+    createButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        Long clientId = ComponentUtil.getData(UI.getCurrent(), Long.class);
+    Long clientId = ComponentUtil.getData(UI.getCurrent(), Long.class);
 
-        createButton.addClickListener(e -> {
-            AccountResponse accountResponse = accountService.create(
-                new NewAccountRequest(
-                    accountField.getValue(),
-                    bicField2.getValue(),
-                    ((Currency) currencySelect.getValue()).getCurrency(),
-                    clientId
-                )
-            );
-            if (accountResponse != null) {
-                Notification notification = Notification.show("Счет клиента создан");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            } else {
-                Notification notification = Notification.show("Не удалось создать счет");
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            }
-            UI.getCurrent().navigate(ClientsView.class);
-        });
+    createButton.addClickListener(e -> {
+      AccountResponse accountResponse = accountService.create(
+          new NewAccountRequest(
+              accountField.getValue(),
+              bicField2.getValue(),
+              ((Currency) currencySelect.getValue()).getCurrency(),
+              clientId
+          )
+      );
+      if (accountResponse != null) {
+        Notification notification = Notification.show("Счет клиента создан");
+        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+      } else {
+        Notification notification = Notification.show("Не удалось создать счет");
+        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+      }
+      UI.getCurrent().navigate(ClientsView.class);
+    });
 
-        cancelButton.setText("Отмена");
-        cancelButton.setWidth("min-content");
+    cancelButton.setText("Отмена");
+    cancelButton.setWidth("min-content");
 
-        getContent().add(layoutColumn2);
+    getContent().add(layoutColumn2);
 
-        layoutColumn2.add(h3);
-        layoutColumn2.add(formLayout2Col);
+    layoutColumn2.add(h3);
+    layoutColumn2.add(formLayout2Col);
 
-        formLayout2Col.add(accountField);
-        formLayout2Col.add(bicField2);
-        formLayout2Col.add(currencySelect);
+    formLayout2Col.add(accountField);
+    formLayout2Col.add(bicField2);
+    formLayout2Col.add(currencySelect);
 
-        layoutColumn2.add(layoutRow);
+    layoutColumn2.add(layoutRow);
 
-        layoutRow.add(createButton);
-        layoutRow.add(cancelButton);
-    }
+    layoutRow.add(createButton);
+    layoutRow.add(cancelButton);
+  }
 
-    private void setSelectCurrencyData(Select select) {
-        List<Currency> currencies = accountService.getCurrencies();
+  private void setSelectCurrencyData(Select select) {
+    List<Currency> currencies = accountService.getCurrencies();
 
-        select.setItems(currencies);
-        select.setItemLabelGenerator(item -> ((Currency) item).getLabel());
-        select.setItemEnabledProvider(item -> !Boolean.TRUE.equals(((Currency) item).getDisabled()));
-    }
+    select.setItems(currencies);
+    select.setItemLabelGenerator(item -> ((Currency) item).getLabel());
+    select.setItemEnabledProvider(item -> !Boolean.TRUE.equals(((Currency) item).getDisabled()));
+  }
 
 }
