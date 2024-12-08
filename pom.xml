@@ -28,6 +28,7 @@
         <javax.validation.version>2.0.1.Final</javax.validation.version>
         <org.apache.commons.version>3.14.0</org.apache.commons.version>
         <org.parttio.version>2.1.0</org.parttio.version>
+        <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
         <!--<org.aspectj.version>1.9.22</org.aspectj.version>-->
         <org.junit.jupiter.version>5.10.3</org.junit.jupiter.version>
         <org.mockito.version>5.12.0</org.mockito.version>
@@ -176,6 +177,13 @@
             <version>${org.parttio.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
 <!--        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
@@ -235,6 +243,12 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-testbench-junit5</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow-test-util</artifactId>
+            <version>${vaadin.version}</version>
         </dependency>
     </dependencies>
 

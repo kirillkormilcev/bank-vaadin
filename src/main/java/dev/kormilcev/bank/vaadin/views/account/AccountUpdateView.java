@@ -41,8 +41,8 @@ public class AccountUpdateView extends Composite<VerticalLayout> {
     H3 h3 = new H3();
     FormLayout formLayout2Col = new FormLayout();
 
-    TextField accountField = new TextField();
-    TextField bicField2 = new TextField();
+    TextField paymentAccountField = new TextField();
+    TextField bicField = new TextField();
     TextField currencyField = new TextField();
     BigDecimalField balanceField = new BigDecimalField();
 
@@ -65,8 +65,8 @@ public class AccountUpdateView extends Composite<VerticalLayout> {
 
     formLayout2Col.setWidth("100%");
 
-    accountField.setLabel("Номер счета");
-    bicField2.setLabel("БИК");
+    paymentAccountField.setLabel("Номер счета");
+    bicField.setLabel("БИК");
     currencyField.setLabel("Валюта");
     balanceField.setLabel("Сумма");
 
@@ -83,8 +83,9 @@ public class AccountUpdateView extends Composite<VerticalLayout> {
     AccountResponse account = ComponentUtil.getData(UI.getCurrent(), AccountResponse.class);
 
     if (account != null) {
-      accountField.setValue(account.paymentAccount());
-      bicField2.setValue(account.bic());
+      paymentAccountField.setValue(account.paymentAccount());
+      paymentAccountField.setReadOnly(true);
+      bicField.setValue(account.bic());
       currencyField.setValue(account.currency());
       currencyField.setReadOnly(true);
       balanceField.setValue(account.balance());
@@ -93,9 +94,8 @@ public class AccountUpdateView extends Composite<VerticalLayout> {
       updateButton.addClickListener(e -> {
         Optional<AccountResponse> accountResponse = accountService.update(
             new UpdateAccountRequest(
-                accountField.getValue(),
-                bicField2.getValue(),
-                account.clientId()
+                account.paymentAccount(),
+                bicField.getValue()
             )
         );
         if (accountResponse.isPresent()) {
@@ -119,8 +119,8 @@ public class AccountUpdateView extends Composite<VerticalLayout> {
     layoutColumn2.add(h3);
     layoutColumn2.add(formLayout2Col);
 
-    formLayout2Col.add(accountField);
-    formLayout2Col.add(bicField2);
+    formLayout2Col.add(paymentAccountField);
+    formLayout2Col.add(bicField);
     formLayout2Col.add(currencyField);
     formLayout2Col.add(balanceField);
 

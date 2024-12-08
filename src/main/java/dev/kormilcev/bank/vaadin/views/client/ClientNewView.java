@@ -16,11 +16,16 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import dev.kormilcev.bank.model.dto.NewClientRequest;
 import dev.kormilcev.bank.service.ClientService;
 import dev.kormilcev.bank.service.impl.ClientServiceImpl;
+import dev.kormilcev.bank.vaadin.handler.Handler;
 import dev.kormilcev.bank.vaadin.views.mian.MainView;
+import dev.kormilcev.bank.validation.ClientValidator;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.vaadin.lineawesome.LineAwesomeIconUrl;
@@ -35,6 +40,10 @@ public class ClientNewView extends Composite<VerticalLayout> {
 
   public ClientNewView() {
     clientService = ClientServiceImpl.getInstance();
+
+    VaadinSession.getCurrent().setErrorHandler(Handler.getInstance());
+
+    List<TextField> fields = new ArrayList<>();
 
     VerticalLayout layoutColumn2 = new VerticalLayout();
     H3 h3 = new H3();
@@ -74,6 +83,13 @@ public class ClientNewView extends Composite<VerticalLayout> {
     innField.setLabel("ИНН");
     addressField.setLabel("Адрес");
 
+    surnameField.setPattern("^[А-ЯA-Z][а-яА-Яa-z]{1,255}$");
+    nameField.setPattern("^[А-ЯA-Z][а-яА-Яa-z]{1,255}$");
+    patronymicField.setPattern("^[А-ЯA-Z][а-яА-Яa-z]{1,255}$");
+    phoneField.setPattern("^\\d{11}$");
+    innField.setPattern("^\\d{12}$");
+
+
     layoutRow.addClassName(Gap.MEDIUM);
     layoutRow.setWidth("100%");
     layoutRow.getStyle().set("flex-grow", "1");
@@ -82,22 +98,30 @@ public class ClientNewView extends Composite<VerticalLayout> {
     saveButton.setWidth("min-content");
     saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
+    fields.add(surnameField);
+    fields.add(nameField);
+    fields.add(patronymicField);
+    fields.add(phoneField);
+    fields.add(innField);
+
     saveButton.addClickListener(e -> {
-      clientService.createClient(
-          new NewClientRequest(
-              surnameField.getValue(),
-              nameField.getValue(),
-              patronymicField.getValue(),
-              phoneField.getValue(),
-              innField.getValue(),
-              addressField.getValue()
-          )
-      );
 
-      Notification notification = Notification.show("Клиент создан");
-      notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+      if (ClientValidator.throwIfClientNotValid(fields)) {
+        clientService.createClient(
+            new NewClientRequest(
+                surnameField.getValue(),
+                nameField.getValue(),
+                patronymicField.getValue(),
+                phoneField.getValue(),
+                innField.getValue(),
+                addressField.getValue()
+            )
+        );
+        Notification notification = Notification.show("Клиент создан");
+        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
-      UI.getCurrent().navigate(MainView.class);
+        UI.getCurrent().navigate(MainView.class);
+      }
     });
 
     cancelButton.setText("Отмена");

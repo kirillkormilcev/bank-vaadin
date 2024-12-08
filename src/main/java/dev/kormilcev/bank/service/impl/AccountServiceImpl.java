@@ -11,10 +11,12 @@ import dev.kormilcev.bank.repository.AccountDao;
 import dev.kormilcev.bank.repository.impl.AccountDaoImpl;
 import dev.kormilcev.bank.service.AccountService;
 import dev.kormilcev.bank.service.mapper.AccountMapper;
+import dev.kormilcev.bank.validation.AccountValidator;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
@@ -39,6 +41,15 @@ public class AccountServiceImpl implements AccountService {
 
     account.setBalance(BigDecimal.ZERO);
     account.setStatus(AccountStatus.OPEN);
+
+    //заглушка
+    Random random = new Random();
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < 20; i++) {
+      sb.append(random.nextInt(10));
+    }
+
+    account.setPaymentAccount(sb.toString());
 
     return accountMapper.accountToAccountResponse(
         accountDao.create(account));
@@ -68,6 +79,7 @@ public class AccountServiceImpl implements AccountService {
   @Override
   public boolean transfer(String fromPaymentAccount, BigDecimal balance, BigDecimal amount,
       String toPaymentAccount) {
+    AccountValidator.throwIfTransferNotValid(balance, amount);
     try {
       return accountDao.transfer(fromPaymentAccount, balance, amount, toPaymentAccount);
     } catch (SQLException e) {

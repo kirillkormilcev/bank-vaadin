@@ -42,8 +42,8 @@ public class AccountNewView extends Composite<VerticalLayout> {
     H3 h3 = new H3();
     FormLayout formLayout2Col = new FormLayout();
 
-    TextField accountField = new TextField();
-    TextField bicField2 = new TextField();
+    TextField paymentAccountField = new TextField();
+    TextField bicField = new TextField();
     Select currencySelect = new Select();
 
     HorizontalLayout layoutRow = new HorizontalLayout();
@@ -65,9 +65,14 @@ public class AccountNewView extends Composite<VerticalLayout> {
 
     formLayout2Col.setWidth("100%");
 
-    accountField.setLabel("Номер счета");
-    accountField.setValue("12345678900987654321");
-    bicField2.setLabel("БИК");
+    paymentAccountField.setLabel("Номер счета");
+    paymentAccountField.setValue("будет сгенерирован");
+    paymentAccountField.setReadOnly(true);
+
+    bicField.setLabel("БИК");
+    bicField.setValue("044525999");
+    bicField.setReadOnly(true);
+
     currencySelect.setLabel("Валюта");
 
     currencySelect.setWidth("min-content");
@@ -87,8 +92,7 @@ public class AccountNewView extends Composite<VerticalLayout> {
     createButton.addClickListener(e -> {
       AccountResponse accountResponse = accountService.create(
           new NewAccountRequest(
-              accountField.getValue(),
-              bicField2.getValue(),
+              bicField.getValue(),
               ((Currency) currencySelect.getValue()).getCurrency(),
               clientId
           )
@@ -111,8 +115,8 @@ public class AccountNewView extends Composite<VerticalLayout> {
     layoutColumn2.add(h3);
     layoutColumn2.add(formLayout2Col);
 
-    formLayout2Col.add(accountField);
-    formLayout2Col.add(bicField2);
+    formLayout2Col.add(paymentAccountField);
+    formLayout2Col.add(bicField);
     formLayout2Col.add(currencySelect);
 
     layoutColumn2.add(layoutRow);

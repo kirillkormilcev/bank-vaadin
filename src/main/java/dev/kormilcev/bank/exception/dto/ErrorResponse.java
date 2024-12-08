@@ -13,7 +13,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 @Slf4j
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ErrorResponse {
+public class ErrorResponse{
 
   List<String> errors;
   int status;

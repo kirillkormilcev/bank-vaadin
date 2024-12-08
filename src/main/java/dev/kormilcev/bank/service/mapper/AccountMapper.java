@@ -15,10 +15,14 @@ public interface AccountMapper {
   AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
 
   @Mapping(target = "accountId", ignore = true)
+  @Mapping(target = "paymentAccount", ignore = true)
   Account newAccountRequestToClient(NewAccountRequest request);
 
   @Mapping(target = "accountId", ignore = true)
+  @Mapping(target = "balance", ignore = true)
+  @Mapping(target = "status", ignore = true)
   @Mapping(target = "currency", ignore = true)
+  @Mapping(target = "clientId", ignore = true)
   Account updateAccountRequestToClient(UpdateAccountRequest request);
 
   AccountResponse accountToAccountResponse(Account account);

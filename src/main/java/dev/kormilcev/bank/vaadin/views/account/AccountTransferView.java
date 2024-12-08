@@ -18,11 +18,13 @@ import com.vaadin.flow.component.textfield.BigDecimalField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import dev.kormilcev.bank.model.dto.AccountResponse;
 import dev.kormilcev.bank.service.AccountService;
 import dev.kormilcev.bank.service.impl.AccountServiceImpl;
-import dev.kormilcev.bank.vaadin.views.client.ClientsWithOpenAccountsView;
+import dev.kormilcev.bank.util.NpeUtil;
+import dev.kormilcev.bank.vaadin.handler.Handler;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -36,6 +38,8 @@ public class AccountTransferView extends Composite<VerticalLayout> {
 
   public AccountTransferView() {
     accountService = AccountServiceImpl.getInstance();
+
+    VaadinSession.getCurrent().setErrorHandler(Handler.getInstance());
 
     VerticalLayout layoutColumn2 = new VerticalLayout();
     H3 h3 = new H3();
@@ -67,13 +71,8 @@ public class AccountTransferView extends Composite<VerticalLayout> {
 
     AccountResponse account = ComponentUtil.getData(UI.getCurrent(), AccountResponse.class);
 
-    if (account != null) {
-      fromAccountField.setValue(account.paymentAccount());
-      fromAccountField.setReadOnly(true);
-
-    } else {
-      UI.getCurrent().navigate(ClientsWithOpenAccountsView.class);
-    }
+    fromAccountField.setValue(NpeUtil.routeIfNullOrGetPaymentAccount(account, "clients-open"));
+    fromAccountField.setReadOnly(true);
 
     amountField.setLabel("Сумма");
     amountField.setWidth("min-content");
@@ -93,7 +92,9 @@ public class AccountTransferView extends Composite<VerticalLayout> {
 
     transferButton.addClickListener(e -> {
 
-      if (accountService.transfer(account.paymentAccount(), account.balance(),
+      if (accountService.transfer(
+          NpeUtil.routeIfNullOrGetPaymentAccount(account, "clients-open"),
+          account.balance(),
           amountField.getValue(),
           ((AccountResponse) toAccountComboBox.getValue()).paymentAccount())) {
         Notification notification = Notification.show("Перевод выполнен");

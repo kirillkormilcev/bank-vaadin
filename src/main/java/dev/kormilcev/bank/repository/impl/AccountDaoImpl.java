@@ -24,6 +24,12 @@ public class AccountDaoImpl implements AccountDao {
       VALUES (?, ?, ?, ?, ?, ?);
       """;
 
+  private static final String UPDATE_SQL = """
+      UPDATE account
+      SET bic = ?
+      WHERE payment_account = ?;
+      """;
+
   private static final String FIND_ALL_CURRENCY_SQL = """
       SELECT currency_id, c.currency, label, disabled FROM currency c;
       """;
@@ -44,11 +50,6 @@ public class AccountDaoImpl implements AccountDao {
       SELECT account_id, payment_account, balance, status, bic, currency, client_id  FROM account
       WHERE payment_account != ?
       AND status = ?;
-      """;
-
-  private static final String GET_BALANCE_SQL = """
-      SELECT balance FROM account
-      WHERE payment_account = ?;
       """;
 
   private static final String UPDATE_BALANCE_SQL = """
@@ -103,7 +104,23 @@ public class AccountDaoImpl implements AccountDao {
 
   @Override
   public Account update(Account account) {
-    return null;
+    try (Connection connection = connectionManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
+
+      preparedStatement.setString(1, account.getBic());
+      preparedStatement.setString(2, account.getPaymentAccount());
+
+      preparedStatement.executeUpdate();
+
+      ResultSet resultSet = preparedStatement.getGeneratedKeys();
+      if (resultSet.next()) {
+        account = createAccount(resultSet);
+      }
+    } catch (SQLException e) {
+      throw new DataBaseStatementException("Ошибка при обновлении счета в базе данных."
+          + System.lineSeparator() + e.getMessage());
+    }
+    return account;
   }
 
   @Override
