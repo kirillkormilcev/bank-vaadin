@@ -193,7 +193,7 @@ public class AccountDaoImpl implements AccountDao {
       preparedStatement.executeUpdate();
       return true;
     } catch (SQLException e) {
-      throw new DataBaseStatementException("Ошибка при закрытии счета."
+      throw new DataBaseStatementException("Ошибка при пополнении счета."
           + System.lineSeparator() + e.getMessage());
     }
   }

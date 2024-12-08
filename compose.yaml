@@ -15,4 +15,4 @@ services:
 
 volumes:
   pgdata:
-    driver: local #todo ?
+    driver: local
