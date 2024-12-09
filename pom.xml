@@ -29,7 +29,7 @@
         <org.apache.commons.version>3.14.0</org.apache.commons.version>
         <org.parttio.version>2.1.0</org.parttio.version>
         <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
-        <!--<org.aspectj.version>1.9.22</org.aspectj.version>-->
+<!--        <org.aspectj.version>1.9.22</org.aspectj.version>-->
         <org.junit.jupiter.version>5.10.3</org.junit.jupiter.version>
         <org.mockito.version>5.12.0</org.mockito.version>
         <org.testcontainers.version>1.19.8</org.testcontainers.version>
@@ -351,6 +351,33 @@
                     </execution>
                 </executions>
             </plugin>-->
+
+<!--            <plugin>
+                <groupId>dev.aspectj</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.14</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        &lt;!&ndash; AspectJ compiler version, in sync with runtime &ndash;&gt;
+                        <version>${org.aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    &lt;!&ndash; Your favourite Java source/target version &ndash;&gt;
+                    <complianceLevel>17</complianceLevel>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+
         </plugins>
     </build>
 

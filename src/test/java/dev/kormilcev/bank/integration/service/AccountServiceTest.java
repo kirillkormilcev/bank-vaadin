@@ -64,7 +64,7 @@ public class AccountServiceTest{
 
     ExecutorService executor = Executors.newFixedThreadPool(100);
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 500; i++) {
       AccountResponse finalAccountResponse1 = accountResponse1Updated;
       AccountResponse finalAccountResponse2 = accountResponse2;
 
@@ -75,6 +75,24 @@ public class AccountServiceTest{
               finalAccountResponse1.balance(),
               BigDecimal.ONE,
               finalAccountResponse2.paymentAccount());
+        } finally {
+          latch.countDown();
+        }
+      });
+
+      accountResponse1Updated = accountService.getAllOpenAccountsByClientId(accountResponse1.clientId()).get(0);
+
+      AccountResponse final2AccountResponse1 = accountResponse1Updated;
+      AccountResponse final2AccountResponse2 = accountResponse2;
+
+
+      executor.submit(() -> {
+        try {
+          accountService.transfer(
+              final2AccountResponse1.paymentAccount(),
+              final2AccountResponse1.balance(),
+              BigDecimal.ONE,
+              final2AccountResponse2.paymentAccount());
         } finally {
           latch.countDown();
         }
